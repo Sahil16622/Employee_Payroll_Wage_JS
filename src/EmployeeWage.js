@@ -103,13 +103,25 @@ function calculateWageUntilLimit() {
     }, { totalWage: 0, totalHours: 0 });
     console.log(`Total Wage: $${totalWagesAndHours.totalWage}, Total Hours: ${totalWagesAndHours.totalHours}`);
 
-    // b. Show the full working days, part working days and no working days
-    const fullWorkingDays = dailyWages.filter(({ hoursWorked }) => hoursWorked === FULL_TIME_HOURS).map(({ day }) => day);
-    const partWorkingDays = dailyWages.filter(({ hoursWorked }) => hoursWorked === PART_TIME_HOURS).map(({ day }) => day);
-    const noWorkingDays = dailyWages.filter(({ hoursWorked }) => hoursWorked === 0).map(({ day }) => day);
-
+    // b. Show the full working days using forEach
+    const fullWorkingDays = [];
+    dailyWages.forEach(({ day, hoursWorked }) => {
+        if (hoursWorked === FULL_TIME_HOURS) {
+            fullWorkingDays.push(day);
+        }
+    });
     console.log(`Full Working Days: ${fullWorkingDays}`);
+
+    // c. Show Part working days using Map by reducing to String Array
+    const partWorkingDays = dailyWages
+        .filter(({ hoursWorked }) => hoursWorked === PART_TIME_HOURS)
+        .map(({ day }) => `Day ${day}`);
     console.log(`Part Working Days: ${partWorkingDays}`);
+
+    // d. No working days only using Map function
+    const noWorkingDays = dailyWages
+        .map(({ day, hoursWorked }) => (hoursWorked === 0 ? `Day ${day}` : null))
+        .filter(day => day !== null);
     console.log(`No Working Days: ${noWorkingDays}`);
 }
 
