@@ -1,0 +1,1 @@
+This repo is used to create project on Employee payroll wage using the JavaScript.
