@@ -33,10 +33,14 @@ function calculateWage() {
 
 function calculateTotalWage(days) {
     let totalWage = 0;
+    let dailyWages = [];
     for (let day = 1; day <= days; day++) {
         const dailyHours = getWorkHours(Math.floor(Math.random() * 3));
-        totalWage += dailyHours * WAGE_PER_HOUR;
+        const dailyWage = dailyHours * WAGE_PER_HOUR;
+        dailyWages.push(dailyWage);
+        totalWage += dailyWage;
     }
+    console.log(`Daily Wages: ${dailyWages}`);
     return totalWage;
 }
 
@@ -44,14 +48,18 @@ function calculateWageUntilLimit() {
     let totalHours = 0;
     let totalDays = 0;
     let totalWageUntil = 0;
+    let dailyWages = [];
 
     while (totalHours < MAX_HOURS && totalDays < MAX_DAYS) {
         const dailyHours = getWorkHours(Math.floor(Math.random() * 3));
+        const dailyWage = dailyHours * WAGE_PER_HOUR;
+        dailyWages.push(dailyWage);
         totalHours += dailyHours;
-        totalWageUntil += dailyHours * WAGE_PER_HOUR;
+        totalWageUntil += dailyWage;
         totalDays++;
     }
 
+    console.log(`Daily Wages: ${dailyWages}`);
     console.log(`Total Days: ${totalDays}, Total Hours: ${totalHours}, Total Wage: $${totalWageUntil}`);
 }
 
