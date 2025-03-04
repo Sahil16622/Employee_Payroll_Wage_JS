@@ -50,46 +50,46 @@ function calculateWageUntilLimit() {
     let totalHours = 0;
     let totalDays = 0;
     let totalWageUntil = 0;
-    let dailyWages = [];
+    let dailyWages = new Map();
 
     while (totalHours < MAX_HOURS && totalDays < MAX_DAYS) {
         const dailyHours = getWorkHours(Math.floor(Math.random() * 3));
         const dailyWage = dailyHours * WAGE_PER_HOUR;
-        dailyWages.push(dailyWage);
+        dailyWages.set(totalDays + 1, dailyWage);
         totalHours += dailyHours;
         totalWageUntil += dailyWage;
         totalDays++;
     }
 
-    console.log(`Daily Wages: ${dailyWages}`);
+    console.log(`Daily Wages: ${Array.from(dailyWages.values())}`);
     console.log(`Total Days: ${totalDays}, Total Hours: ${totalHours}, Total Wage: $${totalWageUntil}`);
 
     // a. Calc total Wage using Array forEach or reduce method
-    const totalWage = dailyWages.reduce((total, wage) => total + wage, 0);
+    const totalWage = Array.from(dailyWages.values()).reduce((total, wage) => total + wage, 0);
     console.log(`Total Wage using reduce: $${totalWage}`);
 
     // b. Show the Day along with Daily Wage using Array map helper function
-    const dayWithWages = dailyWages.map((wage, index) => `Day ${index + 1}: $${wage}`);
+    const dayWithWages = Array.from(dailyWages.entries()).map(([day, wage]) => `Day ${day}: $${wage}`);
     console.log(`Day with Wages: ${dayWithWages}`);
 
     // c. Show Days when Full time wage of 160 were earned using filter function
-    const fullTimeWageDays = dailyWages.filter(wage => wage === FULL_TIME_WAGE);
+    const fullTimeWageDays = Array.from(dailyWages.entries()).filter(([day, wage]) => wage === FULL_TIME_WAGE).map(([day, wage]) => day);
     console.log(`Days with Full Time Wage: ${fullTimeWageDays.length}`);
 
     // d. Find the first occurrence when Full Time Wage was earned using find function
-    const firstFullTimeWageDay = dailyWages.find(wage => wage === FULL_TIME_WAGE);
-    console.log(`First occurrence of Full Time Wage: $${firstFullTimeWageDay}`);
+    const firstFullTimeWageDay = Array.from(dailyWages.entries()).find(([day, wage]) => wage === FULL_TIME_WAGE);
+    console.log(`First occurrence of Full Time Wage: Day ${firstFullTimeWageDay ? firstFullTimeWageDay[0] : 'None'}`);
 
     // e. Check if Every Element of Full Time Wage is truly holding Full time wage
-    const isEveryFullTimeWage = dailyWages.every(wage => wage === FULL_TIME_WAGE);
+    const isEveryFullTimeWage = Array.from(dailyWages.values()).every(wage => wage === FULL_TIME_WAGE);
     console.log(`Is every element a Full Time Wage: ${isEveryFullTimeWage}`);
 
     // f. Check if there is any Part Time Wage
-    const isAnyPartTimeWage = dailyWages.some(wage => wage === PART_TIME_WAGE);
+    const isAnyPartTimeWage = Array.from(dailyWages.values()).some(wage => wage === PART_TIME_WAGE);
     console.log(`Is there any Part Time Wage: ${isAnyPartTimeWage}`);
 
     // g. Find the number of days the Employee Worked
-    const daysWorked = dailyWages.filter(wage => wage > 0).length;
+    const daysWorked = Array.from(dailyWages.values()).filter(wage => wage > 0).length;
     console.log(`Number of days the Employee Worked: ${daysWorked}`);
 }
 
