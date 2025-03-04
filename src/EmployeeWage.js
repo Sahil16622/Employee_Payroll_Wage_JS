@@ -13,6 +13,17 @@ class EmployeePayrollData {
         this.salary = salary;
         this.gender = gender;
         this.startDate = new Date(startDate);
+
+        // Validate name
+        try {
+            const namePattern = /^[A-Z][a-zA-Z]{2,}$/;
+            if (!namePattern.test(this.name)) {
+                throw new Error("Name must start with a capital letter and have at least 3 characters.");
+            }
+            console.log("Name validation passed.");
+        } catch (error) {
+            console.error(error.message);
+        }
     }
 
     toString() {
@@ -146,4 +157,5 @@ console.log(employee1.toString());
 calculateWage();
 const totalWage = calculateTotalWage(20);
 console.log(`Total Wage for 20 Days: $${totalWage}`);
+
 calculateWageUntilLimit();
